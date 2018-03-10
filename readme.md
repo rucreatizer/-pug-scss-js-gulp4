@@ -32,7 +32,7 @@ src
 - **styles:** автопрефиксер, scss, sourcemap
 - **stylesReady:** автопрефиксер, scss, минификация
 - **pug:** сборка html из pug (pretty=true)
-- **pug:** сборка html из pug, минификация
+- **pugReady:** сборка html из pug, минификация
 - **images:** копирование и уменьшение картинок
 - **fonts:** копирование шрифтов
 - **scripts:** babel, sourcemap js, объединение
