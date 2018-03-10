@@ -118,6 +118,7 @@ gulp.task('scripts', function() {
     return gulp.src(res.src+res.scripts.src+'*.js')
     .pipe(plumber())
     .pipe(babel())
+	.pipe(concat('index.js'))
     .pipe(sourcemaps.init())	
 	.pipe(sourcemaps.write('.'))
 	.pipe(gulp.dest(res.dest+res.scripts.dest))
@@ -129,6 +130,7 @@ gulp.task('scriptsReady', function() {
     return gulp.src(res.src+res.scripts.src+'*.js')
     .pipe(plumber())
 	.pipe(babel())
+	.pipe(concat('index.js'))	
 	.pipe(jsmin())
 	.pipe(gulp.dest(res.dest+res.scripts.dest))
     .on('end', browserSync.reload);
