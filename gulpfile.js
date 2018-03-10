@@ -11,6 +11,8 @@ var gulp = require('gulp'),
 	cssmin = require('gulp-cssmin');
 	imagemin = require('gulp-imagemin');
 	babel = require('gulp-babel');
+	jsmin = require('gulp-jsmin');
+	htmlbeautify = require('gulp-html-beautify');
 
 
 var res = {
@@ -54,7 +56,6 @@ gulp.task('styles', function() {
 		cascade: false
 	}))
 	.pipe(concat('style.css'))
-	.pipe(cssmin())
 	.pipe(sourcemaps.write())
     .pipe(gulp.dest(res.dest+res.styles.dest))	
     .on('end', browserSync.reload);
@@ -77,6 +78,17 @@ gulp.task('stylesReady', function() {
 
 // *** КОМПИЛЯЦИЯ PUG-ФАЙЛОВ ***
 gulp.task('pug', function() {
+    return gulp.src(res.src+res.pug.src+'*.pug')
+    .pipe(plumber())    
+    .pipe(pug({
+	pretty: true
+	}))
+    .pipe(gulp.dest(res.dest+res.pug.dest))
+    .on('end', browserSync.reload);
+})
+
+// *** КОМПИЛЯЦИЯ PUG-ФАЙЛОВ В ПРОДАКШН ***
+gulp.task('pugReady', function() {
     return gulp.src(res.src+res.pug.src+'*.pug')
     .pipe(plumber())    
     .pipe(pug())
@@ -117,6 +129,7 @@ gulp.task('scriptsReady', function() {
     return gulp.src(res.src+res.scripts.src+'*.js')
     .pipe(plumber())
 	.pipe(babel())
+	.pipe(jsmin())
 	.pipe(gulp.dest(res.dest+res.scripts.dest))
     .on('end', browserSync.reload);
 })
@@ -154,7 +167,7 @@ gulp.task('default', gulp.series(
 // *** ЗАПУСК ВСЕГО НА ПРОДАКШН***
 gulp.task('ready', gulp.series(
         'clean',
-        gulp.parallel('stylesReady','images','pug', 'fonts', 'scriptsReady')
+        gulp.parallel('stylesReady','images','pugReady', 'fonts', 'scriptsReady')
     )
 )
 
